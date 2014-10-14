@@ -1,4 +1,5 @@
 /**
+ * /**
  * Definition for singly-linked list.
  * public class ListNode {
  *     int val;
@@ -19,6 +20,12 @@ public class Solution {
     public TreeNode sortedListToBST(ListNode head) {
         if(head==null) return null;
         if(head.next==null) return new TreeNode(head.val);
+        ListNode rail=head;
+        while(rail.next!=null){
+            rail=rail.next;
+        }
+        return find(head,rail);
+        /*
         ListNode fast=head;
         ListNode slow=head;
         while(fast!=null&&fast.next!=null){
@@ -29,10 +36,11 @@ public class Solution {
         cur.left=find(head,slow);
         cur.right=find(slow.next,fast);
         return cur;
+        */
     }
     
     public TreeNode find(ListNode start,ListNode end){
-        if(start==end) return null;
+        if(start==end) return new TreeNode(start.val);
         /*
         if(start.next==end){
             return new TreeNode(start.val);
@@ -40,13 +48,22 @@ public class Solution {
         */
         ListNode fast=start;
         ListNode slow=start;
-        while(fast!=end.next&&fast.next!=end.next){
+        ListNode preslow=start;
+        while(fast!=end&&fast.next!=end){
              fast=fast.next.next;
+             if(fast==end||fast.next==end) preslow=slow;
             slow=slow.next;
         }
         TreeNode n=new TreeNode(slow.val);
-        n.left=find(start,slow);
+        
+        if(slow==start){
+            n.left=null;
+            n.right=new TreeNode(end.val);
+        }else{
+        
+        n.left=find(start,preslow);
         n.right=find(slow.next,end);
+        }
         return n;
     }
 }

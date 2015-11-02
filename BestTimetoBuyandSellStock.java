@@ -55,3 +55,6 @@ class Solution {
         return maxCurProfit[prices.length-1];
     }
 }
+
+
+//THIRD QUESTION
